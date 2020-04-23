@@ -64,7 +64,7 @@ Y:1:r16bGySCm5ycJFbtaH1eN4pKuEcaecXBEzA:1587607117:HzTktUjSbHEKLZRmNGM3ghIa6lKh7
 3. Then run the following script. Make sure to change `GITHUB_ISSUE_NUMBER` in the script below to the corresponding GitHub issue that contains the proposal you gathered the votes from.
 
 ```
-cat list_of_votes.txt | grep -v "BEGIN VOTE" | grep -v "END VOTE" | ./verify.sh GITHUB_ISSUE_NUMBER
+cat list_of_votes.txt | grep -v "BEGIN VOTE" | grep -v "END VOTE" | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ResistancePlatform/grants/master/verify.sh)" GITHUB_ISSUE_NUMBER
 ```
 
 4. The result will indicate if any of the votes were invalid. It will also print out the final tally. For example:
