@@ -29,6 +29,8 @@ EXPECTED_ISSUE_NUMBER=$1
 yes=0
 no=0
 
+voted_addr=()
+
 while read VOTE
 do
     #echo $VOTE
@@ -50,10 +52,10 @@ do
 
     if [[ "$EXPECTED_ISSUE_NUMBER" != "$ISSUE_NUMBER" ]]
     then
-	echo ""
-	echo "INVALID! : Github Issue Number Not Correct. Vote Rejected: $VOTE"
-	echo ""
-	continue
+    	echo ""
+    	echo "INVALID! : Github Issue Number Not Correct. Vote Rejected: $VOTE"
+    	echo ""
+    	continue
     fi
 
     #docker exec -it -u resuser $(docker ps | grep resistance-core | awk '{print $1}') ./resistance/resistance-cli verifymessage "$TADDR" "$SIGNATURE" "$MESSAGE"
@@ -62,12 +64,23 @@ do
 
     if [[ "$verify" != "true" ]]
     then
-	echo ""
-	echo "INVALID! : Invalid Message Signature. Vote Rejected: $VOTE"
-	echo ""
-	continue
+    	echo ""
+    	echo "INVALID! : Invalid Message Signature. Vote Rejected: $VOTE"
+    	echo ""
+    	continue
     fi
 
+
+    #at this point we have concluded that this is a valid vote and we count it
+
+    if [[ " ${voted_addr[@]} " =~ " ${TADDR} " ]]; then
+        echo ""
+        echo "INVALID! : This Masternode already voted. Vote Rejected: $VOTE"
+        echo ""
+        continue
+    fi
+
+    #at this point we have concluded that this is a valid vote and we count it
 
     if [[ "$VOTE_VALUE" == "N" ]]
     then
@@ -78,6 +91,8 @@ do
     then
         yes=$((yes+1))
     fi
+
+    voted_addr+=$TADDR
 done
 
 echo ""
