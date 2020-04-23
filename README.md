@@ -19,7 +19,7 @@ To vote Masternode holders should perform the following steps:
 
 4. You will be prompted to vote Yes or No to the proposal. Enter `Y` or `N` depending on whether you support the proposal or reject the proposal.
 
-5. A vote will be printed out to the console with the form
+5. Your vote will be printed out to the console with the form
 
 ```
 -----BEGIN VOTE-----
