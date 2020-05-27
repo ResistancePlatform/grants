@@ -14,9 +14,10 @@ checkjq() {
 #Make sure shasum256 is installed
 checkjq() {
     if hash sha256sum 2>/dev/null; then
-        echo "jq installed... proceeding"
+        echo "sha256sum installed... proceeding"
     else
-        sudo apt install jq
+        echo "Hmmm... couldn't find sha256sum... exiting"
+        exit()
     fi
 }
 
