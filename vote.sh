@@ -11,6 +11,15 @@ checkjq() {
     fi
 }
 
+#Make sure shasum256 is installed
+checkjq() {
+    if hash sha256sum 2>/dev/null; then
+        echo "jq installed... proceeding"
+    else
+        sudo apt install jq
+    fi
+}
+
 #Make sure jq is installed
 checkcurl() {
     if hash curl 2>/dev/null; then
@@ -25,7 +34,7 @@ checkcurl
 cd ~
 UUID=$(cat resuser/resnode/config/config.json | jq -r .super.nodeid)
 HASHED_UUID=$(echo -n $UUID | sha256sum | cut -d" " -f1)
-TADDR=$(curl -s https://resnode.resistance.io/api/nodes | jq -r '.[] | select(.node_uuid=='\"$HASED_UUID\"') | .taddr')
+TADDR=$(curl -s https://resnode.resistance.io/api/nodes | jq -r '.[] | select(.hashed_uuid=='\"$HASHED_UUID\"') | .taddr')
 
 if [ -z "$TADDR" ]
 then
