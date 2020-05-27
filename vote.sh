@@ -12,12 +12,12 @@ checkjq() {
 }
 
 #Make sure shasum256 is installed
-checkjq() {
+checkshasum() {
     if hash sha256sum 2>/dev/null; then
         echo "sha256sum installed... proceeding"
     else
         echo "Hmmm... couldn't find sha256sum... exiting"
-        exit
+    exit
     fi
 }
 
@@ -32,6 +32,7 @@ checkcurl() {
 
 checkjq
 checkcurl
+checkshasum
 cd ~
 UUID=$(cat resuser/resnode/config/config.json | jq -r .super.nodeid)
 HASHED_UUID=$(echo -n $UUID | sha256sum | cut -d" " -f1)
