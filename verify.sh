@@ -41,7 +41,7 @@ do
     SIGNATURE=$(echo $VOTE | cut -d":" -f5)
     MESSAGE="$VOTE_VALUE:$ISSUE_NUMBER:$TADDR:$TIMESTAMP"
 
-    node_alive=$(curl -s https://resnode.resistance.io/api/nodes | jq -r '.[] | select(.taddr=='\"$TADDR\"') | .node_uuid')
+    node_alive=$(curl -s https://resnode.resistance.io/api/nodes | jq -r '.[] | select(.taddr=='\"$TADDR\"') | .hashed_uuid')
     if [ -z "$node_alive" ]
     then
       echo ""

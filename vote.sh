@@ -24,7 +24,8 @@ checkjq
 checkcurl
 cd ~
 UUID=$(cat resuser/resnode/config/config.json | jq -r .super.nodeid)
-TADDR=$(curl -s https://resnode.resistance.io/api/nodes | jq -r '.[] | select(.node_uuid=='\"$UUID\"') | .taddr')
+HASHED_UUID=$(echo -n $UUID | sha256sum | cut -d" " -f1)
+TADDR=$(curl -s https://resnode.resistance.io/api/nodes | jq -r '.[] | select(.node_uuid=='\"$HASED_UUID\"') | .taddr')
 
 if [ -z "$TADDR" ]
 then
